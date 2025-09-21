@@ -33,16 +33,16 @@ export function ContactForm({ quote, pdfFile }: ContactFormProps) {
   });
 
   const onSubmit = async (data: ContactFormData) => {
-    // Validation: Check if dimensions are calculated
-    if (!quote || !quote.width || !quote.height) {
-      setSubmitStatus('validation_error');
-      return;
-    }
-
-    // Validation: Check if PDF file is uploaded
-    if (!pdfFile) {
-      setSubmitStatus('pdf_error');
-      return;
+    // If quote is provided, validate dimensions and PDF
+    if (quote) {
+      if (!quote.width || !quote.height) {
+        setSubmitStatus('validation_error');
+        return;
+      }
+      if (!pdfFile) {
+        setSubmitStatus('pdf_error');
+        return;
+      }
     }
 
     setIsSubmitting(true);
@@ -56,7 +56,7 @@ export function ContactForm({ quote, pdfFile }: ContactFormProps) {
         <head>
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Nueva Cotización - Printología</title>
+          <title>${quote ? 'Nueva Cotización' : 'Nuevo Contacto'} - Printología</title>
           <style>
             body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f8fafc; }
             .container { max-width: 600px; margin: 0 auto; background-color: white; }
@@ -82,10 +82,11 @@ export function ContactForm({ quote, pdfFile }: ContactFormProps) {
           <div class="container">
             <div class="header">
               <h1>🖨️ Printología</h1>
-              <p>Nueva Solicitud de Cotización</p>
+              <p>${quote ? 'Nueva Solicitud de Cotización' : 'Nuevo Mensaje de Contacto'}</p>
             </div>
 
             <div class="content">
+              ${quote ? `
               <div class="quote-card">
                 <div class="quote-header">📋 Detalles de la Cotización</div>
 
@@ -126,6 +127,7 @@ export function ContactForm({ quote, pdfFile }: ContactFormProps) {
                   ${quote.hasBulkDiscount ? '<div class="badge" style="margin-top: 10px;">🎉 Descuento Aplicado</div>' : ''}
                 </div>
               </div>
+              ` : ''}
 
               <div class="contact-info">
                 <h3 style="margin-top: 0; color: #1e293b;">📞 Información de Contacto</h3>
@@ -149,13 +151,15 @@ export function ContactForm({ quote, pdfFile }: ContactFormProps) {
                 ` : ''}
               </div>
 
+              ${pdfFile ? `
               <div style="background: #fef3c7; border: 1px solid #f59e0b; border-radius: 8px; padding: 15px; margin: 20px 0;">
                 <strong>📎 Archivo Adjunto:</strong> ${pdfFile.name} (${(pdfFile.size / 1024 / 1024).toFixed(2)} MB)
               </div>
+              ` : ''}
             </div>
 
             <div class="footer">
-              <p>Esta cotización fue generada automáticamente desde el sitio web de Printología</p>
+              <p>${quote ? 'Esta cotización fue generada automáticamente desde el sitio web de Printología' : 'Este mensaje fue enviado desde el sitio web de Printología'}</p>
               <p>Fecha: ${new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>
             </div>
           </div>
@@ -170,9 +174,13 @@ export function ContactForm({ quote, pdfFile }: ContactFormProps) {
         phone: data.phone,
         message: data.message,
         html_content: htmlTemplate,
-        pdf_filename: pdfFile.name,
-        pdf_size: `${(pdfFile.size / 1024 / 1024).toFixed(2)} MB`,
-        quote_summary: `Cotización: ${quote.width}cm × ${quote.height}cm, ${quote.material === 'vinil' ? 'Vinil' : 'Lona'}, Total: $${quote.total.toFixed(2)} MXN`
+        ...(pdfFile && {
+          pdf_filename: pdfFile.name,
+          pdf_size: `${(pdfFile.size / 1024 / 1024).toFixed(2)} MB`
+        }),
+        ...(quote && {
+          quote_summary: `Cotización: ${quote.width}cm × ${quote.height}cm, ${quote.material === 'vinil' ? 'Vinil' : 'Lona'}, Total: $${quote.total.toFixed(2)} MXN`
+        })
       };
 
       await emailjs.send(

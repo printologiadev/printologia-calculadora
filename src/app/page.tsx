@@ -1,16 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
-import { DimensionCalculator } from '@/components/DimensionCalculator';
-import { FileUpload } from '@/components/FileUpload';
-import { PDFPreview } from '@/components/PDFPreview';
-import { QuoteDisplay } from '@/components/QuoteDisplay';
 import { ContactModal } from '@/components/ContactModal';
-import { calculateQuote } from '@/lib/calculations';
-import { Material, QuoteData } from '@/types';
-import { Moon, Sun, Monitor, Menu } from 'lucide-react';
+import { ContactForm } from '@/components/ContactForm';
+import { Moon, Sun, Monitor, Menu, Facebook, Instagram, MessageCircle } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,27 +12,12 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Home() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [width, setWidth] = useState(100);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [height, setHeight] = useState(100);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [material, setMaterial] = useState<Material>('vinil');
-  const [pdfFile, setPdfFile] = useState<File | null>(null);
-  const [quote, setQuote] = useState<QuoteData | null>(null);
   const [theme, setTheme] = useState<'light' | 'dark' | 'system'>('dark');
   const [currentLogo, setCurrentLogo] = useState('/logo_dark.svg');
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
-
-  const handleDimensionChange = (newWidth: number, newHeight: number, newMaterial: Material) => {
-    setWidth(newWidth);
-    setHeight(newHeight);
-    setMaterial(newMaterial);
-    const newQuote = calculateQuote(newWidth, newHeight, newMaterial);
-    setQuote(newQuote);
-  };
 
   useEffect(() => {
     const root = window.document.documentElement;
@@ -58,65 +37,38 @@ export default function Home() {
   }, [theme]);
 
   return (
-    <div className="h-screen w-screen overflow-hidden bg-gradient-to-br from-background to-muted/20 dark:from-background dark:to-muted/10">
+    <div className="min-h-screen w-screen bg-gradient-to-br from-background to-muted/20 dark:from-background dark:to-muted/10">
       {/* Header */}
-      <div className="h-16 border-b-2 border-border/80 bg-background/98 backdrop-blur supports-[backdrop-filter]:bg-background/95 flex items-center justify-between px-6 shadow-sm">
+      <div className="fixed top-0 left-0 right-0 z-50 h-16 border-b-2 border-border/80 bg-background/98 backdrop-blur supports-[backdrop-filter]:bg-background/95 flex items-center justify-between px-6 shadow-sm">
         <div className="flex items-center gap-3">
           <Image
             src={currentLogo}
             alt="Printología Logo"
             width={240}
             height={60}
-            
             className="transition-all duration-300"
           />
-          
         </div>
 
-        {/* Desktop: Theme Toggle & Contact Button */}
-        <div className="hidden md:flex items-center gap-2">
-          <Button
-            variant="default"
-            size="sm"
-            onClick={() => setIsContactModalOpen(true)}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground"
-          >
-            Enviar Cotización
-          </Button>
-          <Button
-            variant={theme === 'light' ? 'default' : 'ghost'}
-            size="sm"
-            onClick={() => setTheme('light')}
-          >
-            <Sun className="h-4 w-4" />
-          </Button>
-          <Button
-            variant={theme === 'dark' ? 'default' : 'ghost'}
-            size="sm"
-            onClick={() => setTheme('dark')}
-          >
-            <Moon className="h-4 w-4" />
-          </Button>
-          <Button
-            variant={theme === 'system' ? 'default' : 'ghost'}
-            size="sm"
-            onClick={() => setTheme('system')}
-          >
-            <Monitor className="h-4 w-4" />
+        {/* Desktop: Navigation & Contact Button */}
+        <div className="hidden md:flex items-center gap-6">
+          <nav className="flex items-center gap-6">
+            <a href="#hero" className="text-base font-semibold text-muted-foreground hover:text-foreground transition-colors">Inicio</a>
+            <a href="#servicios" className="text-base font-semibold text-muted-foreground hover:text-foreground transition-colors">Servicios</a>
+            <a href="#beneficios" className="text-base font-semibold text-muted-foreground hover:text-foreground transition-colors">Beneficios</a>
+            <a href="#portafolio" className="text-base font-semibold text-muted-foreground hover:text-foreground transition-colors">Portafolio</a>
+            <a href="#testimonios" className="text-base font-semibold text-muted-foreground hover:text-foreground transition-colors">Testimonios</a>
+            <a href="#contacto" className="text-base font-semibold text-muted-foreground hover:text-foreground transition-colors">Contacto</a>
+          </nav>
+          <Button asChild variant="default" size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground">
+            <Link href="/calculadora">
+              Cotizar Ahora
+            </Link>
           </Button>
         </div>
 
-        {/* Mobile: Hamburger Menu & Contact Button */}
+        {/* Mobile: Menu & Contact Button */}
         <div className="md:hidden flex items-center gap-2">
-          <Button
-            variant="default"
-            size="sm"
-            onClick={() => setIsContactModalOpen(true)}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground text-xs"
-          >
-            Cotización
-          </Button>
-
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="sm">
@@ -124,84 +76,352 @@ export default function Home() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuItem onClick={() => setTheme('light')} className="flex items-center gap-2">
-                <Sun className="h-4 w-4" />
-                Tema Claro
-                {theme === 'light' && <span className="ml-auto">✓</span>}
+              <DropdownMenuItem asChild>
+                <a href="#hero" className="flex items-center font-semibold">Inicio</a>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme('dark')} className="flex items-center gap-2">
-                <Moon className="h-4 w-4" />
-                Tema Oscuro
-                {theme === 'dark' && <span className="ml-auto">✓</span>}
+              <DropdownMenuItem asChild>
+                <a href="#servicios" className="flex items-center font-semibold">Servicios</a>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme('system')} className="flex items-center gap-2">
-                <Monitor className="h-4 w-4" />
-                Sistema
-                {theme === 'system' && <span className="ml-auto">✓</span>}
+              <DropdownMenuItem asChild>
+                <a href="#beneficios" className="flex items-center font-semibold">Beneficios</a>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <a href="#portafolio" className="flex items-center font-semibold">Portafolio</a>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <a href="#testimonios" className="flex items-center font-semibold">Testimonios</a>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <a href="#contacto" className="flex items-center font-semibold">Contacto</a>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+          <Button asChild variant="default" size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground text-xs">
+            <Link href="/calculadora">
+              Cotizar
+            </Link>
+          </Button>
         </div>
       </div>
 
-      {/* Main Content - Fixed Layout */}
-      <div className="h-[calc(100vh-4rem)] overflow-hidden">
-        {/* Desktop Layout - Fixed Grid */}
-        <div className="hidden lg:grid lg:grid-cols-[320px_1fr_400px] lg:h-full lg:gap-0">
-          {/* Left Sidebar - Calculator & Upload */}
-          <div className="border-r-2 border-border/60 bg-background/80 backdrop-blur-sm p-4 overflow-y-auto shadow-lg">
-            <div className="space-y-2">
-              <DimensionCalculator onChange={handleDimensionChange} />
-              <FileUpload onFileSelect={setPdfFile} selectedFile={pdfFile} />
+      {/* Main Content - Landing Page */}
+      <main className="flex-1 pt-16">
+        {/* Hero Section */}
+        <section id="hero" className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-muted/10 to-background px-6">
+          <div className="text-center space-y-8 max-w-4xl">
+            <h1 className="text-4xl md:text-7xl font-bold text-foreground">
+              Impresión creativa en todos los formatos
+            </h1>
+            <p className="text-xl md:text-2xl text-muted-foreground">
+              Lonas, vinilos, sublimación, DTF, stickers y más en Monterrey
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 text-lg">
+                <Link href="/calculadora">
+                  Cotiza tu proyecto
+                </Link>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="px-8 py-4 text-lg">
+                <a href="https://wa.me/528143603610" target="_blank" rel="noopener noreferrer">
+                  WhatsApp
+                </a>
+              </Button>
             </div>
           </div>
+        </section>
 
-          {/* Center Panel - PDF Preview */}
-          <div className="border-r-2 border-border/60 bg-background/60 backdrop-blur-sm p-6 overflow-hidden shadow-lg">
-            <PDFPreview file={pdfFile} />
-          </div>
-
-          {/* Right Panel - Quote */}
-          <div className="bg-background/80 backdrop-blur-sm shadow-lg h-full">
-            <QuoteDisplay quote={quote} />
-          </div>
-        </div>
-
-        {/* Mobile/Tablet Layout - Tabs */}
-        <div className="lg:hidden h-full overflow-hidden">
-          <Tabs defaultValue="calculator" className="h-full flex flex-col">
-            <div className="border-b-2 border-border/80 bg-background/98 backdrop-blur px-4 py-2 shadow-sm">
-              <TabsList className="grid w-full grid-cols-2 border-2 border-border/60">
-                <TabsTrigger value="calculator" className="text-xs">Calculadora</TabsTrigger>
-                <TabsTrigger value="preview" className="text-xs">Preview</TabsTrigger>
-              </TabsList>
+        {/* Services Section */}
+        <section id="servicios" className="py-16 px-6 bg-muted/20">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Nuestros Servicios</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="bg-background p-6 rounded-lg shadow-sm border">
+                <h3 className="text-xl font-semibold mb-3">Lonas Publicitarias</h3>
+                <p className="text-muted-foreground">Impresiones de alta calidad para exteriores e interiores. Ideales para eventos y publicidad.</p>
+              </div>
+              <div className="bg-background p-6 rounded-lg shadow-sm border">
+                <h3 className="text-xl font-semibold mb-3">Vinilos</h3>
+                <p className="text-muted-foreground">Vinilos adhesivos personalizados para vehículos, paredes y decoración.</p>
+              </div>
+              <div className="bg-background p-6 rounded-lg shadow-sm border">
+                <h3 className="text-xl font-semibold mb-3">Sublimación</h3>
+                <p className="text-muted-foreground">Impresión directa en textiles y objetos. Colores vibrantes y duraderos.</p>
+              </div>
+              <div className="bg-background p-6 rounded-lg shadow-sm border">
+                <h3 className="text-xl font-semibold mb-3">DTF</h3>
+                <p className="text-muted-foreground">Direct to Film para prendas oscuras. Alta definición y resistencia.</p>
+              </div>
+              <div className="bg-background p-6 rounded-lg shadow-sm border">
+                <h3 className="text-xl font-semibold mb-3">Stickers</h3>
+                <p className="text-muted-foreground">Stickers personalizados en diversos materiales y formas.</p>
+              </div>
+              <div className="bg-background p-6 rounded-lg shadow-sm border">
+                <h3 className="text-xl font-semibold mb-3">Gran Formato</h3>
+                <p className="text-muted-foreground">Impresiones de hasta 160cm x 360cm. Máquinas de última generación.</p>
+              </div>
             </div>
+          </div>
+        </section>
 
-            <div className="flex-1 overflow-hidden">
-              <TabsContent value="calculator" className="h-full overflow-y-auto">
-                <div className="space-y-4 p-4">
-                  <DimensionCalculator onChange={handleDimensionChange} />
-                  <QuoteDisplay quote={quote} />
+        {/* Benefits Section */}
+        <section id="beneficios" className="py-16 px-6">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-12">¿Por qué elegir Printología?</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              <div className="space-y-3">
+                <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto">
+                  <span className="text-primary-foreground font-bold">★</span>
                 </div>
-              </TabsContent>
-
-              <TabsContent value="preview" className="h-full overflow-y-auto">
-                <div className="space-y-4 p-4">
-                  <FileUpload onFileSelect={setPdfFile} selectedFile={pdfFile} />
-                  <PDFPreview file={pdfFile} />
+                <h3 className="font-semibold">Calidad Superior</h3>
+                <p className="text-sm text-muted-foreground">Tecnología de impresión de vanguardia para resultados excepcionales.</p>
+              </div>
+              <div className="space-y-3">
+                <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto">
+                  <span className="text-primary-foreground font-bold">⚡</span>
                 </div>
-              </TabsContent>
+                <h3 className="font-semibold">Entrega Rápida</h3>
+                <p className="text-sm text-muted-foreground">Tiempos de entrega optimizados sin comprometer la calidad.</p>
+              </div>
+              <div className="space-y-3">
+                <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto">
+                  <span className="text-primary-foreground font-bold">👥</span>
+                </div>
+                <h3 className="font-semibold">Atención Personalizada</h3>
+                <p className="text-sm text-muted-foreground">Asesoría especializada para cada proyecto único.</p>
+              </div>
+              <div className="space-y-3">
+                <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto">
+                  <span className="text-primary-foreground font-bold">🎨</span>
+                </div>
+                <h3 className="font-semibold">Versatilidad</h3>
+                <p className="text-sm text-muted-foreground">Amplia gama de productos y técnicas de impresión.</p>
+              </div>
             </div>
-          </Tabs>
-        </div>
-      </div>
+          </div>
+        </section>
+
+        {/* Gallery Section */}
+        <section id="portafolio" className="py-16 px-6 bg-muted/20">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Nuestro Portafolio</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="bg-background p-4 rounded-lg shadow-sm border">
+                <div className="aspect-video bg-muted rounded mb-4 flex items-center justify-center">
+                  <span className="text-muted-foreground">Imagen de Lona Publicitaria</span>
+                </div>
+                <p className="text-sm text-muted-foreground">Proyecto de lonas para evento corporativo</p>
+              </div>
+              <div className="bg-background p-4 rounded-lg shadow-sm border">
+                <div className="aspect-video bg-muted rounded mb-4 flex items-center justify-center">
+                  <span className="text-muted-foreground">Imagen de Vinilos</span>
+                </div>
+                <p className="text-sm text-muted-foreground">Vinilos decorativos para vehículo</p>
+              </div>
+              <div className="bg-background p-4 rounded-lg shadow-sm border">
+                <div className="aspect-video bg-muted rounded mb-4 flex items-center justify-center">
+                  <span className="text-muted-foreground">Imagen de Stickers</span>
+                </div>
+                <p className="text-sm text-muted-foreground">Stickers personalizados para marca</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Testimonials Section */}
+        <section id="testimonios" className="py-16 px-6">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Clientes Satisfechos</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="bg-background p-6 rounded-lg shadow-sm border">
+                <p className="text-muted-foreground mb-4">&quot;Excelente calidad y rapidez en la entrega. Recomiendo Printología para todos sus proyectos de impresión.&quot;</p>
+                <p className="font-semibold">- Juan Pérez, Empresa XYZ</p>
+              </div>
+              <div className="bg-background p-6 rounded-lg shadow-sm border">
+                <p className="text-muted-foreground mb-4">&quot;El servicio personalizado y la atención al detalle hicieron que nuestro evento fuera un éxito.&quot;</p>
+                <p className="font-semibold">- María García, EventPlanner</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Secondary CTA */}
+        <section id="cta" className="py-16 px-6 bg-primary text-primary-foreground">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">Imprime tu idea hoy mismo</h2>
+            <p className="text-lg mb-8 opacity-90">Contáctanos para una cotización personalizada</p>
+            <Button asChild variant="secondary" size="lg" className="px-8 py-4 text-lg">
+              <a href="https://wa.me/528143603610" target="_blank" rel="noopener noreferrer">
+                Contactar por WhatsApp
+              </a>
+            </Button>
+          </div>
+        </section>
+
+        {/* Contact Section */}
+        <section id="contacto" className="py-16 px-6 bg-muted/20">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">Contáctanos</h2>
+              <p className="text-lg text-muted-foreground">Estamos aquí para ayudarte con tus proyectos de impresión</p>
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+              <div>
+                <h3 className="text-2xl font-semibold mb-6">Información de Contacto</h3>
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                      <span className="text-primary-foreground font-bold">📍</span>
+                    </div>
+                    <div>
+                      <p className="font-semibold">Dirección</p>
+                      <p className="text-muted-foreground">Narciso Mendoza 4212, Niño Artillero, Monterrey</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                      <span className="text-primary-foreground font-bold">📞</span>
+                    </div>
+                    <div>
+                      <p className="font-semibold">Teléfono</p>
+                      <p className="text-muted-foreground">(81) 1234-5678</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                      <span className="text-primary-foreground font-bold">✉️</span>
+                    </div>
+                    <div>
+                      <p className="font-semibold">Email</p>
+                      <p className="text-muted-foreground">ventasprintologia@gmail.com</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                      <span className="text-primary-foreground font-bold">🕒</span>
+                    </div>
+                    <div>
+                      <p className="font-semibold">Horarios</p>
+                      <p className="text-muted-foreground">Lunes a Viernes: 9:00 - 18:00</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <h3 className="text-2xl font-semibold mb-6">Envíanos un Mensaje</h3>
+                <ContactForm quote={null} pdfFile={null} />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Floating WhatsApp Button */}
+        <a
+          href="https://wa.me/528143603610"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="fixed bottom-6 right-6 z-40 bg-green-500 hover:bg-green-600 text-white p-5 rounded-full shadow-xl transition-all duration-300 hover:scale-110"
+          aria-label="Contactar por WhatsApp"
+        >
+          <MessageCircle className="h-7 w-7" />
+        </a>
+
+        {/* Footer */}
+        <footer className="bg-background border-t py-12 px-6">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {/* Logo */}
+              <div className="flex flex-col items-center md:items-start">
+                <Image
+                  src={currentLogo}
+                  alt="Printología Logo"
+                  width={180}
+                  height={45}
+                  className="mb-4"
+                />
+                <p className="text-sm text-muted-foreground text-center md:text-left">
+                  Impresiones de gran formato en Monterrey
+                </p>
+              </div>
+
+              {/* Navigation */}
+              <div>
+                <h3 className="font-semibold mb-4">Navegación</h3>
+                <nav className="flex flex-col space-y-2">
+                  <a href="#hero" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Inicio</a>
+                  <a href="#servicios" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Servicios</a>
+                  <a href="#beneficios" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Beneficios</a>
+                  <a href="#portafolio" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Portafolio</a>
+                  <a href="#testimonios" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Testimonios</a>
+                  <a href="/calculadora" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Calculadora</a>
+                </nav>
+              </div>
+
+              {/* Contact */}
+              <div>
+                <h3 className="font-semibold mb-4">Contacto</h3>
+                <p className="text-sm text-muted-foreground">
+                  Dirección: Narciso Mendoza 4212, Niño Artillero, Monterrey<br />
+                  Teléfono: (81) 1234-5678<br />
+                  Email: ventasprintologia@gmail.com
+                </p>
+              </div>
+
+              {/* Social */}
+              <div>
+                <h3 className="font-semibold mb-4">Síguenos</h3>
+                <div className="flex gap-6">
+                  <a href="https://www.facebook.com/profile.php?id=61581039116908" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-blue-600 transition-colors">
+                    <Facebook className="h-6 w-6" />
+                  </a>
+                  <a href="https://www.instagram.com/printologiamty/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-pink-600 transition-colors">
+                    <Instagram className="h-6 w-6" />
+                  </a>
+                  <a href="https://wa.me/528143603610" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-green-600 transition-colors">
+                    <MessageCircle className="h-6 w-6" />
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div className="border-t mt-8 pt-8 flex flex-col md:flex-row items-center justify-between text-sm text-muted-foreground">
+              <p className="mb-4 md:mb-0">&copy; 2024 Printología. Todos los derechos reservados. | <a href="#" className="hover:text-foreground">Aviso de Privacidad</a> | <a href="#" className="hover:text-foreground">Términos de Servicio</a></p>
+              <div className="flex gap-2">
+                <Button
+                  variant={theme === 'light' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setTheme('light')}
+                  className="h-8 w-8 p-0"
+                >
+                  <Sun className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant={theme === 'dark' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setTheme('dark')}
+                  className="h-8 w-8 p-0"
+                >
+                  <Moon className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant={theme === 'system' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setTheme('system')}
+                  className="h-8 w-8 p-0"
+                >
+                  <Monitor className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </main>
 
       {/* Contact Modal */}
       <ContactModal
         isOpen={isContactModalOpen}
         onClose={() => setIsContactModalOpen(false)}
-        quote={quote}
-        pdfFile={pdfFile}
+        quote={null}
+        pdfFile={null}
       />
     </div>
   );
