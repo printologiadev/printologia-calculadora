@@ -555,6 +555,7 @@ export default function Home() {
                   size="sm"
                   onClick={() => setTheme('light')}
                   className="h-8 w-8 p-0"
+                  aria-label="Cambiar a tema claro"
                 >
                   <Sun className="h-4 w-4" />
                 </Button>
@@ -563,6 +564,7 @@ export default function Home() {
                   size="sm"
                   onClick={() => setTheme('dark')}
                   className="h-8 w-8 p-0"
+                  aria-label="Cambiar a tema oscuro"
                 >
                   <Moon className="h-4 w-4" />
                 </Button>
@@ -571,6 +573,7 @@ export default function Home() {
                   size="sm"
                   onClick={() => setTheme('system')}
                   className="h-8 w-8 p-0"
+                  aria-label="Usar tema del sistema"
                 >
                   <Monitor className="h-4 w-4" />
                 </Button>
