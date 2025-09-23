@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { ContactModal } from '@/components/ContactModal';
 import { ContactForm } from '@/components/ContactForm';
-import { Moon, Sun, Monitor, Menu, Facebook, Instagram, MessageCircle } from 'lucide-react';
+import { Moon, Sun, Monitor, Menu, Facebook, Instagram, Music } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -344,10 +344,16 @@ export default function Home() {
           href="https://wa.me/528143603610"
           target="_blank"
           rel="noopener noreferrer"
-          className="fixed bottom-6 right-6 z-40 bg-green-500 hover:bg-green-600 text-white p-5 rounded-full shadow-xl transition-all duration-300 hover:scale-110 whatsapp-pulse"
+          className="fixed bottom-6 right-6 z-40 bg-green-500 hover:bg-green-600 p-3 rounded-full shadow-xl transition-all duration-300 hover:scale-110 whatsapp-pulse"
           aria-label="Contactar por WhatsApp"
         >
-          <MessageCircle className="h-7 w-7" />
+          <Image
+            src="/whatsapp-icon.svg"
+            alt="WhatsApp"
+            width={32}
+            height={32}
+            className="w-8 h-8"
+          />
         </a>
 
         {/* Footer */}
@@ -401,8 +407,8 @@ export default function Home() {
                   <a href="https://www.instagram.com/printologiamty/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-pink-600 transition-colors">
                     <Instagram className="h-6 w-6" />
                   </a>
-                  <a href="https://wa.me/528143603610" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-green-600 transition-colors">
-                    <MessageCircle className="h-6 w-6" />
+                  <a href="#" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-black transition-colors">
+                    <Music className="h-6 w-6" />
                   </a>
                 </div>
               </div>
