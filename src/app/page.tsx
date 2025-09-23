@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { ContactModal } from '@/components/ContactModal';
 import { ContactForm } from '@/components/ContactForm';
-import { Moon, Sun, Monitor, Menu, Facebook, Instagram, Music } from 'lucide-react';
+import { Moon, Sun, Monitor, Menu } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -402,13 +402,31 @@ export default function Home() {
                 <h3 className="font-semibold mb-4">Síguenos</h3>
                 <div className="flex gap-6">
                   <a href="https://www.facebook.com/profile.php?id=61581039116908" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-blue-600 transition-colors">
-                    <Facebook className="h-6 w-6" />
+                    <Image
+                      src="/icons8-facebook (2).svg"
+                      alt="Facebook"
+                      width={24}
+                      height={24}
+                      className="w-6 h-6"
+                    />
                   </a>
                   <a href="https://www.instagram.com/printologiamty/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-pink-600 transition-colors">
-                    <Instagram className="h-6 w-6" />
+                    <Image
+                      src="/icons8-instagram-64 (1).png"
+                      alt="Instagram"
+                      width={24}
+                      height={24}
+                      className="w-6 h-6"
+                    />
                   </a>
                   <a href="#" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-black transition-colors">
-                    <Music className="h-6 w-6" />
+                    <Image
+                      src="/icons8-tik-tok-64.png"
+                      alt="TikTok"
+                      width={24}
+                      height={24}
+                      className="w-6 h-6"
+                    />
                   </a>
                 </div>
               </div>
