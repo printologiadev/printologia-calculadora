@@ -147,9 +147,9 @@ export default function Home() {
                 </Link>
               </Button>
               <Button asChild variant="outline" size="lg" className="px-8 py-4 text-lg">
-                <a href="https://wa.me/528143603610" target="_blank" rel="noopener noreferrer">
-                  WhatsApp
-                </a>
+                <Link href="/link">
+                  Redes Sociales
+                </Link>
               </Button>
             </div>
           </div>
