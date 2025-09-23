@@ -3,21 +3,17 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
-import { Instagram, Facebook, MessageCircle, Globe } from 'lucide-react';
+import { Instagram, Facebook, Globe } from 'lucide-react';
 
 export default function LinkPage() {
   const [currentLogo, setCurrentLogo] = useState('/logo_dark.svg');
 
   useEffect(() => {
     const root = window.document.documentElement;
-    let actualTheme: 'light' | 'dark';
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      actualTheme = 'dark';
-    } else {
-      actualTheme = 'light';
-    }
-
-    setCurrentLogo(actualTheme === 'dark' ? '/LOGO_DARK.svg' : '/LOGO_LIGHT.svg');
+    // Force dark theme for this page
+    root.classList.remove('light');
+    root.classList.add('dark');
+    setCurrentLogo('/LOGO_DARK.svg');
   }, []);
 
   const socialLinks = [
@@ -37,7 +33,7 @@ export default function LinkPage() {
     },
     {
       name: 'WhatsApp',
-      icon: MessageCircle,
+      icon: 'whatsapp',
       url: 'https://wa.me/528143603610',
       color: 'hover:text-green-600',
       bgColor: 'bg-green-600 hover:bg-green-700'
@@ -79,7 +75,6 @@ export default function LinkPage() {
         {/* Social Media Buttons */}
         <div className="grid grid-cols-2 gap-4">
           {socialLinks.map((link) => {
-            const IconComponent = link.icon;
             return (
               <Button
                 key={link.name}
@@ -94,7 +89,17 @@ export default function LinkPage() {
                   className="flex flex-col items-center gap-2"
                   aria-label={`Visitar ${link.name}`}
                 >
-                  <IconComponent className="h-8 w-8" />
+                  {link.icon === 'whatsapp' ? (
+                    <Image
+                      src="/whatsapp-icon.svg"
+                      alt="WhatsApp"
+                      width={32}
+                      height={32}
+                      className="w-8 h-8"
+                    />
+                  ) : (
+                    <link.icon className="h-8 w-8" />
+                  )}
                   <span className="text-sm font-semibold">{link.name}</span>
                 </a>
               </Button>
