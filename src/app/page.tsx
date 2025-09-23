@@ -156,34 +156,149 @@ export default function Home() {
         </section>
 
         {/* Services Section */}
-        <section id="servicios" className="py-16 px-6 bg-muted/20 opacity-0">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Nuestros Servicios</h2>
+        <section id="servicios" className="py-20 px-6 bg-gradient-to-br from-background via-muted/10 to-background opacity-0">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                Nuestros Servicios
+              </h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Tecnología de vanguardia para dar vida a tus ideas creativas
+              </p>
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <div className="bg-background p-6 rounded-lg shadow-sm border">
-                <h3 className="text-xl font-semibold mb-3">Lonas Publicitarias</h3>
-                <p className="text-muted-foreground">Impresiones de alta calidad para exteriores e interiores. Ideales para eventos y publicidad.</p>
+              {/* Lonas Publicitarias */}
+              <div className="group relative bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950/20 dark:to-blue-900/20 p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-blue-200/50 dark:border-blue-800/50">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-400/10 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="relative z-10">
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+                    <span className="text-2xl">🏢</span>
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4 text-blue-900 dark:text-blue-100">Lonas Publicitarias</h3>
+                  <p className="text-blue-700 dark:text-blue-300 leading-relaxed">
+                    Impresiones de alta calidad para exteriores e interiores. Ideales para eventos corporativos y publicidad urbana.
+                  </p>
+                  <div className="mt-6 flex items-center text-blue-600 dark:text-blue-400 font-semibold">
+                    <span>Explorar servicio</span>
+                    <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                  </div>
+                </div>
               </div>
-              <div className="bg-background p-6 rounded-lg shadow-sm border">
-                <h3 className="text-xl font-semibold mb-3">Vinilos</h3>
-                <p className="text-muted-foreground">Vinilos adhesivos personalizados para vehículos, paredes y decoración.</p>
+
+              {/* Vinilos */}
+              <div className="group relative bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-950/20 dark:to-purple-900/20 p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-purple-200/50 dark:border-purple-800/50">
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-400/10 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="relative z-10">
+                  <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+                    <span className="text-2xl">🚗</span>
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4 text-purple-900 dark:text-purple-100">Vinilos</h3>
+                  <p className="text-purple-700 dark:text-purple-300 leading-relaxed">
+                    Vinilos adhesivos personalizados para vehículos, paredes y decoración. Acabados premium y duraderos.
+                  </p>
+                  <div className="mt-6 flex items-center text-purple-600 dark:text-purple-400 font-semibold">
+                    <span>Explorar servicio</span>
+                    <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                  </div>
+                </div>
               </div>
-              <div className="bg-background p-6 rounded-lg shadow-sm border">
-                <h3 className="text-xl font-semibold mb-3">Sublimación</h3>
-                <p className="text-muted-foreground">Impresión directa en textiles y objetos. Colores vibrantes y duraderos.</p>
+
+              {/* Sublimación */}
+              <div className="group relative bg-gradient-to-br from-pink-50 to-pink-100 dark:from-pink-950/20 dark:to-pink-900/20 p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-pink-200/50 dark:border-pink-800/50">
+                <div className="absolute inset-0 bg-gradient-to-br from-pink-400/10 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="relative z-10">
+                  <div className="w-16 h-16 bg-gradient-to-br from-pink-500 to-pink-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+                    <span className="text-2xl">👕</span>
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4 text-pink-900 dark:text-pink-100">Sublimación</h3>
+                  <p className="text-pink-700 dark:text-pink-300 leading-relaxed">
+                    Impresión directa en textiles y objetos. Colores vibrantes que se integran perfectamente al material.
+                  </p>
+                  <div className="mt-6 flex items-center text-pink-600 dark:text-pink-400 font-semibold">
+                    <span>Explorar servicio</span>
+                    <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                  </div>
+                </div>
               </div>
-              <div className="bg-background p-6 rounded-lg shadow-sm border">
-                <h3 className="text-xl font-semibold mb-3">DTF</h3>
-                <p className="text-muted-foreground">Direct to Film para prendas oscuras. Alta definición y resistencia.</p>
+
+              {/* DTF */}
+              <div className="group relative bg-gradient-to-br from-green-50 to-green-100 dark:from-green-950/20 dark:to-green-900/20 p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-green-200/50 dark:border-green-800/50">
+                <div className="absolute inset-0 bg-gradient-to-br from-green-400/10 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="relative z-10">
+                  <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+                    <span className="text-2xl">🎨</span>
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4 text-green-900 dark:text-green-100">DTF</h3>
+                  <p className="text-green-700 dark:text-green-300 leading-relaxed">
+                    Direct to Film para prendas oscuras. Alta definición, resistencia y versatilidad en diseños complejos.
+                  </p>
+                  <div className="mt-6 flex items-center text-green-600 dark:text-green-400 font-semibold">
+                    <span>Explorar servicio</span>
+                    <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                  </div>
+                </div>
               </div>
-              <div className="bg-background p-6 rounded-lg shadow-sm border">
-                <h3 className="text-xl font-semibold mb-3">Stickers</h3>
-                <p className="text-muted-foreground">Stickers personalizados en diversos materiales y formas.</p>
+
+              {/* Stickers */}
+              <div className="group relative bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-950/20 dark:to-orange-900/20 p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-orange-200/50 dark:border-orange-800/50">
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-400/10 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="relative z-10">
+                  <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+                    <span className="text-2xl">🏷️</span>
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4 text-orange-900 dark:text-orange-100">Stickers</h3>
+                  <p className="text-orange-700 dark:text-orange-300 leading-relaxed">
+                    Stickers personalizados en diversos materiales, formas y acabados. Perfectos para branding y decoración.
+                  </p>
+                  <div className="mt-6 flex items-center text-orange-600 dark:text-orange-400 font-semibold">
+                    <span>Explorar servicio</span>
+                    <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                  </div>
+                </div>
               </div>
-              <div className="bg-background p-6 rounded-lg shadow-sm border">
-                <h3 className="text-xl font-semibold mb-3">Gran Formato</h3>
-                <p className="text-muted-foreground">Impresiones de hasta 160cm x 360cm. Máquinas de última generación.</p>
+
+              {/* Gran Formato */}
+              <div className="group relative bg-gradient-to-br from-indigo-50 to-indigo-100 dark:from-indigo-950/20 dark:to-indigo-900/20 p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-indigo-200/50 dark:border-indigo-800/50">
+                <div className="absolute inset-0 bg-gradient-to-br from-indigo-400/10 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="relative z-10">
+                  <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+                    <span className="text-2xl">📐</span>
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4 text-indigo-900 dark:text-indigo-100">Gran Formato</h3>
+                  <p className="text-indigo-700 dark:text-indigo-300 leading-relaxed">
+                    Impresiones de hasta 160cm x 360cm. Tecnología de vanguardia para proyectos de gran escala.
+                  </p>
+                  <div className="mt-6 flex items-center text-indigo-600 dark:text-indigo-400 font-semibold">
+                    <span>Explorar servicio</span>
+                    <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                  </div>
+                </div>
               </div>
+            </div>
+
+            {/* Call to action */}
+            <div className="text-center mt-16">
+              <p className="text-lg text-muted-foreground mb-6">
+                ¿Tienes un proyecto especial en mente?
+              </p>
+              <Button asChild size="lg" className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-primary-foreground px-8 py-4 text-lg shadow-lg hover:shadow-xl transition-all duration-300">
+                <Link href="/calculadora">
+                  Calcular mi proyecto
+                </Link>
+              </Button>
             </div>
           </div>
         </section>
