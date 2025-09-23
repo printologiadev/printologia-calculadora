@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { ContactModal } from '@/components/ContactModal';
 import { ContactForm } from '@/components/ContactForm';
@@ -18,6 +18,7 @@ export default function Home() {
   const [theme, setTheme] = useState<'light' | 'dark' | 'system'>('dark');
   const [currentLogo, setCurrentLogo] = useState('/logo_dark.svg');
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const observerRef = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
     const root = window.document.documentElement;
@@ -35,6 +36,30 @@ export default function Home() {
     // Set logo based on actual theme
     setCurrentLogo(actualTheme === 'dark' ? '/LOGO_DARK.svg' : '/LOGO_LIGHT.svg');
   }, [theme]);
+
+  // Scroll animations
+  useEffect(() => {
+    const sections = document.querySelectorAll('section[id]');
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-in');
+        }
+      });
+    };
+
+    observerRef.current = new IntersectionObserver(observerCallback, observerOptions);
+    sections.forEach(section => observerRef.current?.observe(section));
+
+    return () => {
+      observerRef.current?.disconnect();
+    };
+  }, []);
 
   return (
     <div className="min-h-screen w-screen bg-gradient-to-br from-background to-muted/20 dark:from-background dark:to-muted/10">
@@ -131,7 +156,7 @@ export default function Home() {
         </section>
 
         {/* Services Section */}
-        <section id="servicios" className="py-16 px-6 bg-muted/20">
+        <section id="servicios" className="py-16 px-6 bg-muted/20 opacity-0">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Nuestros Servicios</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -164,34 +189,34 @@ export default function Home() {
         </section>
 
         {/* Benefits Section */}
-        <section id="beneficios" className="py-16 px-6">
+        <section id="beneficios" className="py-16 px-6 opacity-0">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-12">¿Por qué elegir Printología?</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               <div className="space-y-3">
-                <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto">
-                  <span className="text-primary-foreground font-bold">★</span>
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto shadow-lg">
+                  <span className="text-white font-bold text-lg">★</span>
                 </div>
                 <h3 className="font-semibold">Calidad Superior</h3>
                 <p className="text-sm text-muted-foreground">Tecnología de impresión de vanguardia para resultados excepcionales.</p>
               </div>
               <div className="space-y-3">
-                <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto">
-                  <span className="text-primary-foreground font-bold">⚡</span>
+                <div className="w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mx-auto shadow-lg">
+                  <span className="text-white font-bold text-lg">⚡</span>
                 </div>
                 <h3 className="font-semibold">Entrega Rápida</h3>
                 <p className="text-sm text-muted-foreground">Tiempos de entrega optimizados sin comprometer la calidad.</p>
               </div>
               <div className="space-y-3">
-                <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto">
-                  <span className="text-primary-foreground font-bold">👥</span>
+                <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-teal-600 rounded-full flex items-center justify-center mx-auto shadow-lg">
+                  <span className="text-white font-bold text-lg">👥</span>
                 </div>
                 <h3 className="font-semibold">Atención Personalizada</h3>
                 <p className="text-sm text-muted-foreground">Asesoría especializada para cada proyecto único.</p>
               </div>
               <div className="space-y-3">
-                <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto">
-                  <span className="text-primary-foreground font-bold">🎨</span>
+                <div className="w-12 h-12 bg-gradient-to-br from-pink-500 to-red-500 rounded-full flex items-center justify-center mx-auto shadow-lg">
+                  <span className="text-white font-bold text-lg">🎨</span>
                 </div>
                 <h3 className="font-semibold">Versatilidad</h3>
                 <p className="text-sm text-muted-foreground">Amplia gama de productos y técnicas de impresión.</p>
@@ -201,7 +226,7 @@ export default function Home() {
         </section>
 
         {/* Gallery Section */}
-        <section id="portafolio" className="py-16 px-6 bg-muted/20">
+        <section id="portafolio" className="py-16 px-6 bg-muted/20 opacity-0">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Nuestro Portafolio</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -228,7 +253,7 @@ export default function Home() {
         </section>
 
         {/* Testimonials Section */}
-        <section id="testimonios" className="py-16 px-6">
+        <section id="testimonios" className="py-16 px-6 opacity-0">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Clientes Satisfechos</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -245,7 +270,7 @@ export default function Home() {
         </section>
 
         {/* Secondary CTA */}
-        <section id="cta" className="py-16 px-6 bg-primary text-primary-foreground">
+        <section id="cta" className="py-16 px-6 bg-primary text-primary-foreground opacity-0">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">Imprime tu idea hoy mismo</h2>
             <p className="text-lg mb-8 opacity-90">Contáctanos para una cotización personalizada</p>
@@ -258,7 +283,7 @@ export default function Home() {
         </section>
 
         {/* Contact Section */}
-        <section id="contacto" className="py-16 px-6 bg-muted/20">
+        <section id="contacto" className="py-16 px-6 bg-muted/20 opacity-0">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">Contáctanos</h2>
@@ -319,7 +344,7 @@ export default function Home() {
           href="https://wa.me/528143603610"
           target="_blank"
           rel="noopener noreferrer"
-          className="fixed bottom-6 right-6 z-40 bg-green-500 hover:bg-green-600 text-white p-5 rounded-full shadow-xl transition-all duration-300 hover:scale-110"
+          className="fixed bottom-6 right-6 z-40 bg-green-500 hover:bg-green-600 text-white p-5 rounded-full shadow-xl transition-all duration-300 hover:scale-110 whatsapp-pulse"
           aria-label="Contactar por WhatsApp"
         >
           <MessageCircle className="h-7 w-7" />
