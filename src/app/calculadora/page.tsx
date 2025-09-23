@@ -18,6 +18,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import Image from 'next/image';
+import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
 
 export default function Home() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -62,15 +64,19 @@ export default function Home() {
       {/* Header */}
       <div className="h-16 border-b-2 border-border/80 bg-background/98 backdrop-blur supports-[backdrop-filter]:bg-background/95 flex items-center justify-between px-6 shadow-sm">
         <div className="flex items-center gap-3">
+          <Button asChild variant="ghost" size="sm" className="mr-2">
+            <Link href="/" className="flex items-center gap-2">
+              <ArrowLeft className="h-4 w-4" />
+              <span className="hidden sm:inline">Inicio</span>
+            </Link>
+          </Button>
           <Image
             src={currentLogo}
             alt="Printología Logo"
             width={240}
             height={60}
-
             className="transition-all duration-300"
           />
-
         </div>
 
         {/* Desktop: Theme Toggle & Contact Button */}
