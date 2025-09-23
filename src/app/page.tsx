@@ -182,7 +182,7 @@ export default function Home() {
                   <div className="mt-6 flex items-center text-blue-600 dark:text-blue-400 font-semibold">
                     <span>Explorar servicio</span>
                     <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
                     </svg>
                   </div>
                 </div>
@@ -202,7 +202,7 @@ export default function Home() {
                   <div className="mt-6 flex items-center text-purple-600 dark:text-purple-400 font-semibold">
                     <span>Explorar servicio</span>
                     <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
                     </svg>
                   </div>
                 </div>
@@ -222,7 +222,7 @@ export default function Home() {
                   <div className="mt-6 flex items-center text-pink-600 dark:text-pink-400 font-semibold">
                     <span>Explorar servicio</span>
                     <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
                     </svg>
                   </div>
                 </div>
@@ -242,7 +242,7 @@ export default function Home() {
                   <div className="mt-6 flex items-center text-green-600 dark:text-green-400 font-semibold">
                     <span>Explorar servicio</span>
                     <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
                     </svg>
                   </div>
                 </div>
@@ -262,7 +262,7 @@ export default function Home() {
                   <div className="mt-6 flex items-center text-orange-600 dark:text-orange-400 font-semibold">
                     <span>Explorar servicio</span>
                     <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
                     </svg>
                   </div>
                 </div>
@@ -282,7 +282,7 @@ export default function Home() {
                   <div className="mt-6 flex items-center text-indigo-600 dark:text-indigo-400 font-semibold">
                     <span>Explorar servicio</span>
                     <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
                     </svg>
                   </div>
                 </div>
