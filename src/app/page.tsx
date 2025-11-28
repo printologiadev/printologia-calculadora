@@ -116,42 +116,132 @@ export default function Home() {
         <ModernContact />
       </main>
 
-      <footer className="bg-zinc-950 border-t border-white/10 py-12 px-6">
-        <div className="container mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-          <div className="flex flex-col items-center md:items-start gap-4">
-            <Image
-              src="/LOGO_DARK.svg"
-              alt="Printología"
-              width={140}
-              height={35}
-              className="opacity-80"
-            />
-            <p className="text-zinc-500 text-sm text-center md:text-left max-w-xs">
-              Impresión creativa de gran formato en Monterrey. Calidad, rapidez y tecnología.
-            </p>
+      <footer className="relative bg-zinc-950 border-t border-white/10 overflow-hidden">
+        {/* Background gradient accents */}
+        <div className="absolute top-0 left-0 w-64 h-64 bg-sky-600/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-0 w-64 h-64 bg-violet-600/5 rounded-full blur-3xl" />
+
+        <div className="relative container mx-auto px-6 py-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+            {/* Brand Column */}
+            <div className="space-y-4">
+              <Image
+                src="/LOGO_DARK.svg"
+                alt="Printología"
+                width={160}
+                height={40}
+                className="opacity-90"
+              />
+              <p className="text-zinc-400 text-sm leading-relaxed">
+                Impresión creativa de gran formato en Monterrey. Transformamos tus ideas en realidad con calidad premium.
+              </p>
+              <div className="flex gap-3 pt-2">
+                <a
+                  href="https://www.instagram.com/printologiamty/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group p-3 bg-white/5 rounded-xl hover:bg-sky-600/20 transition-all duration-300 text-white border border-white/5 hover:border-sky-600/30"
+                >
+                  <Instagram className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                </a>
+                <a
+                  href="https://www.facebook.com/profile.php?id=61581039116908"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group p-3 bg-white/5 rounded-xl hover:bg-violet-600/20 transition-all duration-300 text-white border border-white/5 hover:border-violet-600/30"
+                >
+                  <Facebook className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                </a>
+              </div>
+            </div>
+
+            {/* Services Column */}
+            <div className="space-y-4">
+              <h3 className="text-white font-bold text-lg mb-4">Servicios</h3>
+              <ul className="space-y-3">
+                {['Lonas Publicitarias', 'Vinilos', 'DTF Textil', 'Sublimación', 'Stickers', 'Gran Formato'].map((service) => (
+                  <li key={service}>
+                    <Link
+                      href="#servicios"
+                      className="text-zinc-400 hover:text-sky-400 transition-colors text-sm flex items-center gap-2 group"
+                    >
+                      <span className="w-1 h-1 rounded-full bg-zinc-600 group-hover:bg-sky-400 transition-colors" />
+                      {service}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Quick Links Column */}
+            <div className="space-y-4">
+              <h3 className="text-white font-bold text-lg mb-4">Enlaces Rápidos</h3>
+              <ul className="space-y-3">
+                <li>
+                  <Link href="/" className="text-zinc-400 hover:text-sky-400 transition-colors text-sm flex items-center gap-2 group">
+                    <span className="w-1 h-1 rounded-full bg-zinc-600 group-hover:bg-sky-400 transition-colors" />
+                    Inicio
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#servicios" className="text-zinc-400 hover:text-sky-400 transition-colors text-sm flex items-center gap-2 group">
+                    <span className="w-1 h-1 rounded-full bg-zinc-600 group-hover:bg-sky-400 transition-colors" />
+                    Servicios
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#portafolio" className="text-zinc-400 hover:text-sky-400 transition-colors text-sm flex items-center gap-2 group">
+                    <span className="w-1 h-1 rounded-full bg-zinc-600 group-hover:bg-sky-400 transition-colors" />
+                    Portafolio
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#contacto" className="text-zinc-400 hover:text-sky-400 transition-colors text-sm flex items-center gap-2 group">
+                    <span className="w-1 h-1 rounded-full bg-zinc-600 group-hover:bg-sky-400 transition-colors" />
+                    Contacto
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/calculadora" className="text-zinc-400 hover:text-sky-400 transition-colors text-sm flex items-center gap-2 group">
+                    <span className="w-1 h-1 rounded-full bg-zinc-600 group-hover:bg-sky-400 transition-colors" />
+                    Cotizador Online
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Contact Column */}
+            <div className="space-y-4">
+              <h3 className="text-white font-bold text-lg mb-4">Contacto</h3>
+              <ul className="space-y-3 text-sm">
+                <li className="text-zinc-400">
+                  <span className="block text-zinc-500 text-xs mb-1">Ubicación</span>
+                  Monterrey, Nuevo León
+                </li>
+                <li className="text-zinc-400">
+                  <span className="block text-zinc-500 text-xs mb-1">WhatsApp</span>
+                  <a href="https://wa.me/528143603610" className="hover:text-sky-400 transition-colors">
+                    +52 814 360 3610
+                  </a>
+                </li>
+                <li className="text-zinc-400">
+                  <span className="block text-zinc-500 text-xs mb-1">Horario</span>
+                  Lun - Vie: 9:00 AM - 6:00 PM
+                </li>
+              </ul>
+            </div>
           </div>
 
-          <div className="flex gap-6">
-            <a
-              href="https://www.instagram.com/printologiamty/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3 bg-white/5 rounded-full hover:bg-white/10 transition-colors text-white"
-            >
-              <Instagram className="w-5 h-5" />
-            </a>
-            <a
-              href="https://www.facebook.com/profile.php?id=61581039116908"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3 bg-white/5 rounded-full hover:bg-white/10 transition-colors text-white"
-            >
-              <Facebook className="w-5 h-5" />
-            </a>
+          {/* Bottom Bar */}
+          <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-zinc-600 text-sm text-center md:text-left">
+              &copy; {new Date().getFullYear()} Printología. Todos los derechos reservados.
+            </p>
+            <div className="flex gap-6 text-xs text-zinc-600">
+              <Link href="#" className="hover:text-zinc-400 transition-colors">Política de Privacidad</Link>
+              <Link href="#" className="hover:text-zinc-400 transition-colors">Términos de Servicio</Link>
+            </div>
           </div>
-        </div>
-        <div className="container mx-auto mt-12 pt-8 border-t border-white/5 text-center text-zinc-600 text-sm">
-          &copy; {new Date().getFullYear()} Printología. Todos los derechos reservados.
         </div>
       </footer>
 
