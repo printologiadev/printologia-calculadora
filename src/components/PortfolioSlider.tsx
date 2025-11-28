@@ -98,7 +98,7 @@ export function PortfolioSlider() {
     return (
         <section id="portafolio" className="py-24 bg-zinc-950 overflow-hidden relative">
             <div className="container mx-auto px-6">
-                <div className="mb-16 text-center">
+                <div className="mb-8 text-center">
                     <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">
                         Trabajos Recientes
                     </h2>

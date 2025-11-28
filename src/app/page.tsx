@@ -260,8 +260,8 @@ export default function Home() {
               &copy; {new Date().getFullYear()} Printología. Todos los derechos reservados.
             </p>
             <div className="flex gap-6 text-xs text-zinc-600">
-              <Link href="#" className="hover:text-zinc-400 transition-colors">Política de Privacidad</Link>
-              <Link href="#" className="hover:text-zinc-400 transition-colors">Términos de Servicio</Link>
+              <Link href="/privacidad" className="hover:text-zinc-400 transition-colors">Política de Privacidad</Link>
+              <Link href="/terminos" className="hover:text-zinc-400 transition-colors">Términos de Servicio</Link>
             </div>
           </div>
         </div>

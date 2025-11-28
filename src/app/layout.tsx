@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import AdminTools from "@/components/AdminTools";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -55,6 +56,7 @@ export default function RootLayout({
         <ErrorBoundary>
           {children}
         </ErrorBoundary>
+        <AdminTools position="top-right" />
       </body>
     </html>
   );

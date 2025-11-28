@@ -64,7 +64,7 @@ const services = [
 export function BentoGrid() {
     return (
         <section id="servicios" className="py-24 px-6 bg-background relative overflow-hidden">
-            <div className="w-full md:w-[70%] mx-auto">
+            <div className="w-full md:w-[80%] mx-auto">
                 <div className="text-center mb-16">
                     <h2 className="text-4xl md:text-5xl font-bold mb-4">
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-zinc-500">

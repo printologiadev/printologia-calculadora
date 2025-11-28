@@ -17,10 +17,9 @@ export function DimensionCalculator({ onChange }: DimensionCalculatorProps) {
   const [material, setMaterial] = useState<Material>('vinil');
 
   // Ensure initial values are sent to parent on mount
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     onChange(Number(width), Number(height), material);
-  }, []);
+  }, [width, height, material, onChange]);
 
   const handleWidthChange = (value: string) => {
     if (value === '') {
