@@ -8,7 +8,6 @@ import { useBlogStore, useUiStore } from '@/lib/stores';
 
 export default function AdminDashboard() {
     const { posts, totalCount, isLoading, fetchPosts } = useBlogStore();
-    const { isLoading: uiLoading } = useUiStore();
 
     // Calcular estadísticas desde los posts
     const stats = {

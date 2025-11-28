@@ -113,9 +113,10 @@ export const useFormStore = create<FormState>()(
 
           uiStore.setSuccess('Mensaje enviado exitosamente');
           get().resetContactForm();
-        } catch (error: any) {
+        } catch (error: unknown) {
           console.error('Error submitting contact form:', error);
-          uiStore.setError('Error al enviar el mensaje', error.message);
+          const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
+          uiStore.setError('Error al enviar el mensaje', errorMessage);
         } finally {
           uiStore.setLoading(false);
         }
@@ -151,13 +152,16 @@ export const useFormStore = create<FormState>()(
           quoteFormSchema.parse(quoteForm);
           set({ quoteErrors: {} });
           return true;
-        } catch (error: any) {
-          const errors: Record<string, string> = {};
-          error.errors.forEach((err: any) => {
-            const field = err.path[0] as string;
-            errors[field] = err.message;
-          });
-          set({ quoteErrors: errors });
+        } catch (error: unknown) {
+          if (error instanceof Error && 'errors' in error) {
+            const zodError = error as { errors: Array<{ path: string[]; message: string }> };
+            const errors: Record<string, string> = {};
+            zodError.errors.forEach((err) => {
+              const field = err.path[0] as string;
+              errors[field] = err.message;
+            });
+            set({ quoteErrors: errors });
+          }
           return false;
         }
       },
@@ -189,9 +193,10 @@ export const useFormStore = create<FormState>()(
 
           uiStore.setSuccess('Cotización enviada exitosamente');
           get().resetQuoteForm();
-        } catch (error: any) {
+        } catch (error: unknown) {
           console.error('Error submitting quote form:', error);
-          uiStore.setError('Error al enviar la cotización', error.message);
+          const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
+          uiStore.setError('Error al enviar la cotización', errorMessage);
         } finally {
           uiStore.setLoading(false);
         }
