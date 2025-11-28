@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
 import { Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 import { contactSchema } from '@/lib/validations';
 import { ContactFormData } from '@/types';
 
@@ -27,19 +28,26 @@ export function ModernContact() {
         setSubmitStatus('idle');
 
         try {
-            const response = await fetch('/api/contact', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
+            // Send email using EmailJS
+            await emailjs.send(
+                process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+                process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+                {
+                    to_name: 'Printología',
+                    from_name: data.name,
+                    from_email: data.email,
+                    phone: data.phone,
+                    message: data.message,
+                    html_content: `
+                        <h1>Nuevo Mensaje de Contacto</h1>
+                        <p><strong>Nombre:</strong> ${data.name}</p>
+                        <p><strong>Email:</strong> ${data.email}</p>
+                        <p><strong>Teléfono:</strong> ${data.phone}</p>
+                        <p><strong>Mensaje:</strong> ${data.message}</p>
+                    `
                 },
-                body: JSON.stringify(data),
-            });
-
-            const result = await response.json();
-
-            if (!response.ok) {
-                throw new Error(result.error || 'Error al enviar el mensaje');
-            }
+                process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+            );
 
             setSubmitStatus('success');
             form.reset();
