@@ -96,14 +96,14 @@ export default function BlogComparison() {
           Vinil Adhesivo vs Lona: ¿Cuál es Mejor para tu Proyecto?
         </h2>
         <p className="text-zinc-300 text-lg max-w-3xl mx-auto">
-          En Printología, recibimos diariamente esta pregunta: <strong className="text-white">"¿Debo usar vinil adhesivo o lona para mi proyecto?"</strong>.
+          En Printología, recibimos diariamente esta pregunta: <strong className="text-white">&ldquo;¿Debo usar vinil adhesivo o lona para mi proyecto?&rdquo;</strong>.
           La respuesta depende de varios factores que analizaremos en detalle para ayudarte a tomar la mejor decisión.
         </p>
       </div>
 
       {/* Materials Comparison */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {materials.map((material, index) => (
+        {materials.map((material) => (
           <div key={material.title} className="relative group">
             {/* Background gradient */}
             <div className={`absolute -inset-1 bg-gradient-to-r ${material.color} rounded-3xl blur opacity-25 group-hover:opacity-40 transition duration-1000`}></div>
@@ -179,8 +179,8 @@ export default function BlogComparison() {
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {factors.map((factor, index) => (
-            <div key={index} className="bg-zinc-800/50 rounded-xl p-6 border border-white/5">
+          {factors.map((factor) => (
+            <div key={factor.title} className="bg-zinc-800/50 rounded-xl p-6 border border-white/5">
               <h4 className="text-lg font-semibold text-white mb-4">{factor.title}</h4>
               <div className="space-y-3">
                 <div className="flex items-center justify-between p-3 bg-blue-500/10 rounded-lg border border-blue-500/20">

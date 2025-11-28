@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
           </body>
         </html>
       `,
-      reply_to: email, // Permite responder directamente al cliente
+      replyTo: email, // Permite responder directamente al cliente
     });
 
     if (error) {

@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, Calendar, Clock } from 'lucide-react';
+import { Calendar, Clock } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { BlogPost } from '@/lib/zod/schemas';
 import BlogComparison from '@/components/BlogComparison';
@@ -17,33 +17,33 @@ export default function BlogPostPage() {
   const slug = params.slug;
 
   useEffect(() => {
-    if (slug) {
-      fetchPost();
-    }
-  }, [slug]);
+    const fetchPost = async () => {
+      if (!slug) return;
 
-  const fetchPost = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('blog_posts')
-        .select('*')
-        .eq('slug', slug)
-        .eq('es_publicado', true)
-        .single();
+      try {
+        const { data, error } = await supabase
+          .from('blog_posts')
+          .select('*')
+          .eq('slug', slug)
+          .eq('es_publicado', true)
+          .single();
 
-      if (error || !data) {
+        if (error || !data) {
+          router.push('/blog');
+          return;
+        }
+
+        setPost(data);
+      } catch (error) {
+        console.error('Error fetching post:', error);
         router.push('/blog');
-        return;
+      } finally {
+        setIsLoading(false);
       }
+    };
 
-      setPost(data);
-    } catch (error) {
-      console.error('Error fetching post:', error);
-      router.push('/blog');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    fetchPost();
+  }, [slug, router]);
 
   if (isLoading) {
     return (
@@ -108,7 +108,7 @@ export default function BlogPostPage() {
                 <div className="relative">
                   <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-violet-400 to-blue-400 rounded-full"></div>
                   <blockquote className="text-xl text-zinc-300 mb-0 pl-6 italic border-l-0">
-                    "{post.extracto}"
+                    &ldquo;{post.extracto}&rdquo;
                   </blockquote>
                 </div>
               )}
@@ -167,7 +167,7 @@ export default function BlogPostPage() {
                           }
     
                           // Regular paragraph with inline formatting
-                          let processed = paragraph
+                          const processed = paragraph
                             .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                             .replace(/\*(.*?)\*/g, '<em>$1</em>')
                             .replace(/`(.*?)`/g, '<code>$1</code>')
