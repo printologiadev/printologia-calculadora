@@ -2,15 +2,8 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Wrench, Database, CheckCircle, XCircle, Loader2 } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
+import { Wrench, Loader2 } from 'lucide-react';
 import { useUiStore } from '@/lib/stores';
-
-interface TestResult {
-    success: boolean;
-    message: string;
-    details?: string;
-}
 
 interface AdminToolsProps {
     position?: 'bottom-right' | 'top-right';
@@ -18,54 +11,8 @@ interface AdminToolsProps {
 
 export default function AdminTools({ position = 'bottom-right' }: AdminToolsProps) {
     const [isOpen, setIsOpen] = useState(false);
-    const [testResult, setTestResult] = useState<TestResult | null>(null);
     const { isLoading, setLoading, setError, setSuccess } = useUiStore();
 
-    const testSupabaseConnection = async () => {
-        setTestResult(null);
-        setLoading(true, 'Probando conexión con Supabase...');
-
-        try {
-            // Test 1: Verificar configuración
-            const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-            const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-            if (!url || !key) {
-                throw new Error('Variables de entorno no configuradas');
-            }
-
-            // Test 2: Intentar conexión básica
-            const { data, error } = await supabase
-                .from('blog_posts')
-                .select('count', { count: 'exact', head: true });
-
-            if (error) {
-                throw new Error(`Error de conexión: ${error.message}`);
-            }
-
-            const result = {
-                success: true,
-                message: 'Conexión exitosa con Supabase',
-                details: `Se pudo acceder a la tabla blog_posts. Total de registros: ${data || 0}`
-            };
-
-            setTestResult(result);
-            setSuccess('Conexión verificada exitosamente');
-
-        } catch (error: unknown) {
-            const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
-            const result = {
-                success: false,
-                message: 'Error en la conexión',
-                details: errorMessage
-            };
-
-            setTestResult(result);
-            setError('Error de conexión con Supabase', errorMessage);
-        } finally {
-            setLoading(false);
-        }
-    };
 
     return (
         <>
@@ -76,7 +23,7 @@ export default function AdminTools({ position = 'bottom-right' }: AdminToolsProp
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => setIsOpen(true)}
-                className={`fixed z-50 bg-violet-600 hover:bg-violet-700 text-white p-4 rounded-full shadow-lg transition-colors ${
+                className={`hidden fixed z-50 bg-violet-600 hover:bg-violet-700 text-white p-4 rounded-full shadow-lg transition-colors ${
                     position === 'top-right' ? 'top-6 right-6' : 'bottom-6 right-6'
                 }`}
             >
@@ -123,66 +70,6 @@ export default function AdminTools({ position = 'bottom-right' }: AdminToolsProp
 
                             {/* Contenido */}
                             <div className="p-6 space-y-4">
-                                {/* Herramienta: Probar conexión Supabase */}
-                                <div className="bg-zinc-800/50 rounded-xl p-4">
-                                    <div className="flex items-center gap-3 mb-3">
-                                        <Database className="w-5 h-5 text-blue-400" />
-                                        <h4 className="font-medium text-white">Probar Conexión Supabase</h4>
-                                    </div>
-
-                                    <p className="text-sm text-zinc-400 mb-4">
-                                        Verifica que la conexión con la base de datos funcione correctamente.
-                                    </p>
-
-                                    <button
-                                        onClick={testSupabaseConnection}
-                                        disabled={isLoading}
-                                        className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-zinc-600 text-white font-medium py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
-                                    >
-                                        {isLoading ? (
-                                            <>
-                                                <Loader2 className="w-4 h-4 animate-spin" />
-                                                Probando...
-                                            </>
-                                        ) : (
-                                            <>
-                                                <Database className="w-4 h-4" />
-                                                Probar Conexión
-                                            </>
-                                        )}
-                                    </button>
-
-                                    {/* Resultado del test */}
-                                    <AnimatePresence>
-                                        {testResult && (
-                                            <motion.div
-                                                initial={{ opacity: 0, height: 0 }}
-                                                animate={{ opacity: 1, height: 'auto' }}
-                                                exit={{ opacity: 0, height: 0 }}
-                                                className={`mt-4 p-3 rounded-lg border ${
-                                                    testResult.success
-                                                        ? 'bg-green-500/10 border-green-500/30 text-green-400'
-                                                        : 'bg-red-500/10 border-red-500/30 text-red-400'
-                                                }`}
-                                            >
-                                                <div className="flex items-center gap-2 mb-1">
-                                                    {testResult.success ? (
-                                                        <CheckCircle className="w-4 h-4" />
-                                                    ) : (
-                                                        <XCircle className="w-4 h-4" />
-                                                    )}
-                                                    <span className="font-medium text-sm">
-                                                        {testResult.success ? 'Éxito' : 'Error'}
-                                                    </span>
-                                                </div>
-                                                <p className="text-sm">{testResult.message}</p>
-                                                {testResult.details && (
-                                                    <p className="text-xs text-zinc-500 mt-1">{testResult.details}</p>
-                                                )}
-                                            </motion.div>
-                                        )}
-                                    </AnimatePresence>
-                                </div>
 
                                 {/* Espacio para futuras herramientas */}
                                 <div className="bg-zinc-800/50 rounded-xl p-4 opacity-50">
