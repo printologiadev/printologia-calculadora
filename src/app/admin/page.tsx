@@ -100,7 +100,7 @@ export default function AdminDashboard() {
                         href="/admin/blog"
                         className="text-sm text-sky-400 hover:text-sky-300 transition-colors"
                     >
-                        Ver todos →
+                        Gestionar blog →
                     </Link>
                 </div>
 
@@ -110,7 +110,7 @@ export default function AdminDashboard() {
                         <p className="text-zinc-500 mb-4">No hay posts todavía</p>
                         <Link
                             href="/admin/blog/nuevo"
-                            className="inline-block px-6 py-3 bg-white text-black font-bold rounded-xl hover:bg-zinc-200 transition-colors"
+                            className="inline-block px-6 py-3 bg-violet-600 text-white font-bold rounded-xl hover:bg-violet-700 transition-colors"
                         >
                             Crear primer post
                         </Link>
@@ -160,12 +160,21 @@ export default function AdminDashboard() {
                 </Link>
 
                 <Link
-                    href="/admin/contenido"
+                    href="/admin/blog"
                     className="group p-6 bg-gradient-to-br from-violet-600/20 to-amber-600/20 border border-violet-500/30 rounded-2xl hover:border-violet-500/50 transition-all"
                 >
-                    <ImageIcon className="w-8 h-8 text-violet-400 mb-3" />
-                    <h3 className="text-lg font-bold text-white mb-2">Gestionar Contenido</h3>
-                    <p className="text-sm text-zinc-400">Actualiza imágenes y contenido del sitio</p>
+                    <FileText className="w-8 h-8 text-violet-400 mb-3" />
+                    <h3 className="text-lg font-bold text-white mb-2">Gestionar Blog</h3>
+                    <p className="text-sm text-zinc-400">Administra todos los posts y contenido del blog</p>
+                </Link>
+
+                <Link
+                    href="/blog"
+                    className="group p-6 bg-gradient-to-br from-emerald-600/20 to-teal-600/20 border border-emerald-500/30 rounded-2xl hover:border-emerald-500/50 transition-all"
+                >
+                    <Eye className="w-8 h-8 text-emerald-400 mb-3" />
+                    <h3 className="text-lg font-bold text-white mb-2">Ver Blog Público</h3>
+                    <p className="text-sm text-zinc-400">Visualiza cómo se ve el blog para tus visitantes</p>
                 </Link>
             </div>
         </div>

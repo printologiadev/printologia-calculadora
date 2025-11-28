@@ -22,6 +22,7 @@ export default function AdminLayout({
                             width={140}
                             height={35}
                             className="opacity-90"
+                            style={{ width: 'auto', height: 'auto' }}
                         />
                     </Link>
                     <p className="text-xs text-zinc-500 mt-2">Panel de Administración</p>
@@ -53,7 +54,14 @@ export default function AdminLayout({
                 </nav>
 
                 {/* Footer */}
-                <div className="p-4 border-t border-white/10">
+                <div className="p-4 border-t border-white/10 space-y-2">
+                    <Link
+                        href="/blog"
+                        className="flex items-center gap-3 px-4 py-3 rounded-xl text-zinc-400 hover:text-violet-400 hover:bg-violet-500/10 transition-all w-full"
+                    >
+                        <FileText className="w-5 h-5" />
+                        <span>Ver Blog Público</span>
+                    </Link>
                     <Link
                         href="/"
                         className="flex items-center gap-3 px-4 py-3 rounded-xl text-zinc-400 hover:text-white hover:bg-white/5 transition-all w-full"

@@ -9,13 +9,13 @@ export const blogPostSchema = z.object({
     .max(100, 'El slug es demasiado largo')
     .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'El slug solo puede contener letras minúsculas, números y guiones'),
   contenido: z.string().min(1, 'El contenido es requerido'),
-  extracto: z.string().max(500, 'El extracto es demasiado largo').optional(),
-  imagen_url: z.string().url('URL de imagen inválida').optional().or(z.literal('')),
-  meta_description: z.string().max(160, 'La meta descripción es demasiado larga').optional(),
+  extracto: z.string().max(500, 'El extracto es demasiado largo').nullable().optional(),
+  imagen_url: z.string().url('URL de imagen inválida').nullable().optional().or(z.literal('')).or(z.literal(null)),
+  meta_description: z.string().max(160, 'La meta descripción es demasiado larga').nullable().optional(),
   es_publicado: z.boolean().default(false),
-  autor_id: z.string().uuid().optional(),
-  created_at: z.string().datetime().optional(),
-  updated_at: z.string().datetime().optional(),
+  autor_id: z.string().uuid().nullable().optional(),
+  created_at: z.string().optional(),
+  updated_at: z.string().optional(),
 });
 
 export type BlogPost = z.infer<typeof blogPostSchema>;

@@ -4,10 +4,9 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
-import { Send, Sparkles } from 'lucide-react';
+import { Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 import { contactSchema } from '@/lib/validations';
 import { ContactFormData } from '@/types';
-import emailjs from '@emailjs/browser';
 
 export function ModernContact() {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -28,26 +27,19 @@ export function ModernContact() {
         setSubmitStatus('idle');
 
         try {
-            // Simplified email sending logic for the landing page contact form
-            await emailjs.send(
-                process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-                process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
-                {
-                    to_name: 'Printología',
-                    from_name: data.name,
-                    from_email: data.email,
-                    phone: data.phone,
-                    message: data.message,
-                    html_content: `
-            <h1>Nuevo Mensaje de Contacto</h1>
-            <p><strong>Nombre:</strong> ${data.name}</p>
-            <p><strong>Email:</strong> ${data.email}</p>
-            <p><strong>Teléfono:</strong> ${data.phone}</p>
-            <p><strong>Mensaje:</strong> ${data.message}</p>
-          `
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
                 },
-                process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
-            );
+                body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.error || 'Error al enviar el mensaje');
+            }
 
             setSubmitStatus('success');
             form.reset();
@@ -60,132 +52,161 @@ export function ModernContact() {
     };
 
     return (
-        <section id="contacto" className="py-24 px-6 bg-zinc-950 relative overflow-hidden">
-            {/* Background Elements */}
-            <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-sky-900/10 to-transparent pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-1/3 h-full bg-gradient-to-r from-violet-900/10 to-transparent pointer-events-none" />
-
-            <div className="max-w-4xl mx-auto relative z-10">
-                <div className="text-center mb-16">
-                    <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">
-                        Hablemos de tu Proyecto
+        <section id="contacto" className="py-20 px-6 bg-zinc-950">
+            <div className="max-w-2xl mx-auto">
+                {/* Header */}
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                        Hablemos de tu proyecto
                     </h2>
                     <p className="text-zinc-400 text-lg">
-                        ¿Tienes una idea? Nosotros la hacemos realidad.
+                        Cuéntanos qué necesitas y te ayudamos a hacerlo realidad
                     </p>
                 </div>
 
-                <div className="bg-zinc-900/50 backdrop-blur-xl border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl">
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            {/* Name Input */}
-                            <div className="relative group">
-                                <input
-                                    {...form.register('name')}
-                                    type="text"
-                                    placeholder=" "
-                                    className="peer w-full bg-transparent border-b-2 border-zinc-700 py-3 text-white focus:border-sky-600 focus:outline-none transition-colors"
-                                />
-                                <label className="absolute left-0 top-3 text-zinc-500 transition-all peer-focus:-top-6 peer-focus:text-sm peer-focus:text-sky-600 peer-[:not(:placeholder-shown)]:-top-6 peer-[:not(:placeholder-shown)]:text-sm peer-[:not(:placeholder-shown)]:text-sky-600">
-                                    Nombre Completo
-                                </label>
-                                {form.formState.errors.name && (
-                                    <span className="text-red-500 text-sm mt-1 block">{form.formState.errors.name.message}</span>
-                                )}
-                            </div>
-
-                            {/* Email Input */}
-                            <div className="relative group">
-                                <input
-                                    {...form.register('email')}
-                                    type="email"
-                                    placeholder=" "
-                                    className="peer w-full bg-transparent border-b-2 border-zinc-700 py-3 text-white focus:border-violet-600 focus:outline-none transition-colors"
-                                />
-                                <label className="absolute left-0 top-3 text-zinc-500 transition-all peer-focus:-top-6 peer-focus:text-sm peer-focus:text-violet-600 peer-[:not(:placeholder-shown)]:-top-6 peer-[:not(:placeholder-shown)]:text-sm peer-[:not(:placeholder-shown)]:text-violet-600">
-                                    Correo Electrónico
-                                </label>
-                                {form.formState.errors.email && (
-                                    <span className="text-red-500 text-sm mt-1 block">{form.formState.errors.email.message}</span>
-                                )}
-                            </div>
+                {/* Form */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                    viewport={{ once: true }}
+                    className="bg-zinc-900/50 backdrop-blur-sm border border-zinc-800 rounded-2xl p-8"
+                >
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                        {/* Name */}
+                        <div>
+                            <input
+                                {...form.register('name')}
+                                type="text"
+                                placeholder="Tu nombre"
+                                autoComplete="name"
+                                className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-lg text-white placeholder-zinc-500 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 focus:outline-none transition-colors"
+                            />
+                            {form.formState.errors.name && (
+                                <p className="text-red-400 text-sm mt-1 flex items-center gap-1">
+                                    <AlertCircle className="w-4 h-4" />
+                                    {form.formState.errors.name.message}
+                                </p>
+                            )}
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            {/* Phone Input */}
-                            <div className="relative group">
-                                <input
-                                    {...form.register('phone')}
-                                    type="tel"
-                                    placeholder=" "
-                                    className="peer w-full bg-transparent border-b-2 border-zinc-700 py-3 text-white focus:border-amber-500 focus:outline-none transition-colors"
-                                />
-                                <label className="absolute left-0 top-3 text-zinc-500 transition-all peer-focus:-top-6 peer-focus:text-sm peer-focus:text-amber-500 peer-[:not(:placeholder-shown)]:-top-6 peer-[:not(:placeholder-shown)]:text-sm peer-[:not(:placeholder-shown)]:text-amber-500">
-                                    Teléfono
-                                </label>
-                                {form.formState.errors.phone && (
-                                    <span className="text-red-500 text-sm mt-1 block">{form.formState.errors.phone.message}</span>
-                                )}
-                            </div>
-
-                            {/* Subject/Service (Optional or just a static text for now) */}
-                            <div className="flex items-center text-zinc-500 italic">
-                                * Nos pondremos en contacto contigo lo antes posible.
-                            </div>
+                        {/* Email */}
+                        <div>
+                            <input
+                                {...form.register('email')}
+                                type="email"
+                                placeholder="tu@email.com"
+                                autoComplete="email"
+                                className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-lg text-white placeholder-zinc-500 focus:border-violet-500 focus:ring-1 focus:ring-violet-500 focus:outline-none transition-colors"
+                            />
+                            {form.formState.errors.email && (
+                                <p className="text-red-400 text-sm mt-1 flex items-center gap-1">
+                                    <AlertCircle className="w-4 h-4" />
+                                    {form.formState.errors.email.message}
+                                </p>
+                            )}
                         </div>
 
-                        {/* Message Input */}
-                        <div className="relative group">
+                        {/* Phone (Optional) */}
+                        <div>
+                            <input
+                                {...form.register('phone')}
+                                type="tel"
+                                placeholder="Teléfono (opcional)"
+                                autoComplete="tel"
+                                className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-lg text-white placeholder-zinc-500 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 focus:outline-none transition-colors"
+                            />
+                            {form.formState.errors.phone && (
+                                <p className="text-red-400 text-sm mt-1 flex items-center gap-1">
+                                    <AlertCircle className="w-4 h-4" />
+                                    {form.formState.errors.phone.message}
+                                </p>
+                            )}
+                        </div>
+
+                        {/* Message */}
+                        <div>
                             <textarea
                                 {...form.register('message')}
                                 rows={4}
-                                placeholder=" "
-                                className="peer w-full bg-transparent border-b-2 border-zinc-700 py-3 text-white focus:border-emerald-600 focus:outline-none transition-colors resize-none"
+                                placeholder="Cuéntanos sobre tu proyecto..."
+                                className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-lg text-white placeholder-zinc-500 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 focus:outline-none transition-colors resize-none"
                             />
-                            <label className="absolute left-0 top-3 text-zinc-500 transition-all peer-focus:-top-6 peer-focus:text-sm peer-focus:text-emerald-600 peer-[:not(:placeholder-shown)]:-top-6 peer-[:not(:placeholder-shown)]:text-sm peer-[:not(:placeholder-shown)]:text-emerald-600">
-                                Cuéntanos sobre tu proyecto
-                            </label>
+                            {form.formState.errors.message && (
+                                <p className="text-red-400 text-sm mt-1 flex items-center gap-1">
+                                    <AlertCircle className="w-4 h-4" />
+                                    {form.formState.errors.message.message}
+                                </p>
+                            )}
                         </div>
 
                         {/* Submit Button */}
-                        <div className="flex justify-end">
-                            <button
-                                type="submit"
-                                disabled={isSubmitting}
-                                className="relative group px-8 py-4 bg-white text-black font-bold rounded-full overflow-hidden transition-transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                                <div className="absolute inset-0 bg-gradient-to-r from-sky-500 via-violet-500 to-amber-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                                <div className="absolute inset-0 animate-shimmer bg-gradient-to-r from-transparent via-white/50 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-
-                                <span className="relative z-10 flex items-center gap-2 group-hover:text-white transition-colors">
-                                    {isSubmitting ? 'Enviando...' : 'Enviar Mensaje'}
-                                    {!isSubmitting && <Send className="w-4 h-4" />}
-                                </span>
-                            </button>
-                        </div>
+                        <button
+                            type="submit"
+                            disabled={isSubmitting}
+                            className="w-full py-3 px-6 bg-white text-black font-semibold rounded-lg hover:bg-zinc-200 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-zinc-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+                        >
+                            {isSubmitting ? (
+                                <>
+                                    <Loader2 className="w-4 h-4 animate-spin" />
+                                    Enviando...
+                                </>
+                            ) : (
+                                <>
+                                    <Send className="w-4 h-4" />
+                                    Enviar mensaje
+                                </>
+                            )}
+                        </button>
 
                         {/* Status Messages */}
                         {submitStatus === 'success' && (
                             <motion.div
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                className="p-4 bg-green-500/10 border border-green-500/20 rounded-xl text-green-400 flex items-center gap-3"
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                className="p-4 bg-green-500/10 border border-green-500/20 rounded-lg flex items-center gap-3"
                             >
-                                <Sparkles className="w-5 h-5" />
-                                <span>¡Mensaje enviado! Te contactaremos pronto.</span>
+                                <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
+                                <div>
+                                    <p className="text-green-400 font-medium">¡Mensaje enviado!</p>
+                                    <p className="text-green-300/80 text-sm">Te contactaremos pronto.</p>
+                                </div>
                             </motion.div>
                         )}
 
                         {submitStatus === 'error' && (
                             <motion.div
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400"
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg flex items-center gap-3"
                             >
-                                Hubo un error al enviar el mensaje. Por favor intenta de nuevo.
+                                <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0" />
+                                <div>
+                                    <p className="text-red-400 font-medium">Error al enviar</p>
+                                    <p className="text-red-300/80 text-sm">Inténtalo de nuevo.</p>
+                                </div>
                             </motion.div>
                         )}
                     </form>
+                </motion.div>
+
+                {/* Contact Info */}
+                <div className="mt-12 text-center">
+                    <p className="text-zinc-500 mb-4">O contactanos directamente:</p>
+                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                        <a
+                            href="tel:+528143603610"
+                            className="px-6 py-3 bg-zinc-800 hover:bg-zinc-700 rounded-lg text-zinc-300 hover:text-white transition-colors flex items-center justify-center gap-2"
+                        >
+                            📞 +52 814 360 3610
+                        </a>
+                        <a
+                            href="mailto:contacto@printologia.com.mx"
+                            className="px-6 py-3 bg-zinc-800 hover:bg-zinc-700 rounded-lg text-zinc-300 hover:text-white transition-colors flex items-center justify-center gap-2"
+                        >
+                            ✉️ contacto@printologia.com.mx
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
