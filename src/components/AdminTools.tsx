@@ -52,15 +52,16 @@ export default function AdminTools({ position = 'bottom-right' }: AdminToolsProp
             setTestResult(result);
             setSuccess('Conexión verificada exitosamente');
 
-        } catch (error: any) {
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
             const result = {
                 success: false,
                 message: 'Error en la conexión',
-                details: error.message
+                details: errorMessage
             };
 
             setTestResult(result);
-            setError('Error de conexión con Supabase', error.message);
+            setError('Error de conexión con Supabase', errorMessage);
         } finally {
             setLoading(false);
         }

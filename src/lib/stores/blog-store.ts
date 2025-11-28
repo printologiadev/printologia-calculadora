@@ -80,9 +80,10 @@ export const useBlogStore = create<BlogState>()(
           });
 
           uiStore.setLoading(false);
-        } catch (error: any) {
+        } catch (error: unknown) {
           console.error('Error fetching posts:', error);
-          uiStore.setError('Error al cargar los posts', error.message);
+          const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
+          uiStore.setError('Error al cargar los posts', errorMessage);
           set({ isLoading: false });
         }
       },
@@ -112,9 +113,10 @@ export const useBlogStore = create<BlogState>()(
           });
 
           uiStore.setLoading(false);
-        } catch (error: any) {
+        } catch (error: unknown) {
           console.error('Error fetching post:', error);
-          uiStore.setError('Error al cargar el post', error.message);
+          const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
+          uiStore.setError('Error al cargar el post', errorMessage);
           set({ isLoading: false });
         }
       },
@@ -150,9 +152,10 @@ export const useBlogStore = create<BlogState>()(
 
           uiStore.setSuccess('Post creado exitosamente');
           uiStore.setLoading(false);
-        } catch (error: any) {
+        } catch (error: unknown) {
           console.error('Error creating post:', error);
-          uiStore.setError('Error al crear el post', error.message);
+          const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
+          uiStore.setError('Error al crear el post', errorMessage);
         }
       },
 
@@ -191,9 +194,10 @@ export const useBlogStore = create<BlogState>()(
 
           uiStore.setSuccess('Post actualizado exitosamente');
           uiStore.setLoading(false);
-        } catch (error: any) {
+        } catch (error: unknown) {
           console.error('Error updating post:', error);
-          uiStore.setError('Error al actualizar el post', error.message);
+          const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
+          uiStore.setError('Error al actualizar el post', errorMessage);
         }
       },
 
@@ -222,9 +226,10 @@ export const useBlogStore = create<BlogState>()(
 
           uiStore.setSuccess('Post eliminado exitosamente');
           uiStore.setLoading(false);
-        } catch (error: any) {
+        } catch (error: unknown) {
           console.error('Error deleting post:', error);
-          uiStore.setError('Error al eliminar el post', error.message);
+          const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
+          uiStore.setError('Error al eliminar el post', errorMessage);
         }
       },
 

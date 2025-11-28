@@ -18,21 +18,7 @@ export const supabase = createBrowserClient(
 );
 
 // Type-safe database helpers
-export type Database = {
-    // Add your database types here as you create tables
-    // Example:
-    // public: {
-    //   Tables: {
-    //     quotes: {
-    //       Row: {
-    //         id: string;
-    //         created_at: string;
-    //         // ... other fields
-    //       };
-    //     };
-    //   };
-    // };
-};
+export type Database = Record<string, never>;
 
 // Helper function to handle Supabase errors
 export function handleSupabaseError(error: unknown): string {

@@ -73,13 +73,16 @@ export const useFormStore = create<FormState>()(
           contactFormSchema.parse(contactForm);
           set({ contactErrors: {} });
           return true;
-        } catch (error: any) {
-          const errors: Record<string, string> = {};
-          error.errors.forEach((err: any) => {
-            const field = err.path[0] as string;
-            errors[field] = err.message;
-          });
-          set({ contactErrors: errors });
+        } catch (error: unknown) {
+          if (error instanceof Error && 'errors' in error) {
+            const zodError = error as { errors: Array<{ path: string[]; message: string }> };
+            const errors: Record<string, string> = {};
+            zodError.errors.forEach((err) => {
+              const field = err.path[0] as string;
+              errors[field] = err.message;
+            });
+            set({ contactErrors: errors });
+          }
           return false;
         }
       },
